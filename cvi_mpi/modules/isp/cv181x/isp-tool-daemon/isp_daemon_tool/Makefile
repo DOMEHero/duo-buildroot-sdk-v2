@@ -37,9 +37,9 @@ SDK_VER := 64bit
 else ifeq ($(TARGET_MACHINE), arm-linux-gnueabihf)
 SDK_VER := 32bit
 else ifeq ($(TARGET_MACHINE), riscv64-unknown-linux-gnu)
-SDK_VER := musl_riscv64
-else ifeq ($(TARGET_MACHINE), riscv64-unknown-linux-musl)
 SDK_VER := glibc_riscv64
+else ifeq ($(TARGET_MACHINE), riscv64-unknown-linux-musl)
+SDK_VER := musl_riscv64
 endif
 AI_SDK_PATH = $(OUTPUT_DIR)/tpu_$(SDK_VER)/cvitek_ai_sdk
 TPU_SDK_PATH = $(OUTPUT_DIR)/tpu_$(SDK_VER)/cvitek_tpu_sdk
@@ -55,6 +55,7 @@ REQUIRES = cvi_common cvi_sample cvi_vdec cvi_misc
 MW_LIBS = $(shell PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) pkg-config --libs --define-variable=mw_dir=$(MW_PATH) $(REQUIRES))
 
 LIBS += $(MW_LIBS) -latomic
+LIBS += -L$(MW_LIB) -ltinyalsa
 LIBS += -lsys -lvenc -lvdec -lvi -lvpss -lvo -lrgn -lgdc -lisp -lisp_algo -lawb -lae -laf -lsample -lcvi_bin -lcvi_bin_isp -lsns_full -lini -lsbc
 LIBS += -lcvi_ispd2
 LIBS += -lraw_dump
